@@ -1,14 +1,13 @@
 import { Module } from '@nestjs/common';
 import { PrismaService } from './prisma/prisma.service';
-import prismaMiddleware from './prisma/prisma.middleware';
+
+// Instância do prisma client vindo do middleware
+// import prisma from './prisma/prisma.middleware';
 
 @Module({
-  providers: [PrismaService, 
-    {
-    provide: "PrismaClient",
-    useValue: prismaMiddleware
-  }],
+  providers: [PrismaService],
 
-  exports: [PrismaService, "PrismaClient"],
+  exports: [PrismaService],
 })
+
 export class PrismaModule {}
