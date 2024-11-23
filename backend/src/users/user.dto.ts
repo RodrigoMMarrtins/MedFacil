@@ -5,5 +5,5 @@ export class UserDto {
   email: string;
   password: string;
   type: userType;
-  field_of_activity?: string;
+  fieldOfActivity?: string;
 }
