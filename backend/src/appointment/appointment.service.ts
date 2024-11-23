@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { ResponseDTO } from 'src/shared/reponse.dto';
-import { AppointmentDTO } from './appointment.dto';
+import { AppointmentDto } from './appointment.dto';
 import { PrismaService } from 'src/prisma/prisma/prisma.service';
 
 @Injectable()
@@ -9,7 +9,7 @@ export class AppointmentService {
     constructor(private prismaService: PrismaService){ }
 
     // Cria um agendamento tomando os dados de appointmentDTO, passados na requisição body do controller...
-    async create(appointment: AppointmentDTO): Promise<ResponseDTO{ //
+    async create(appointment: AppointmentDto): Promise<ResponseDTO>{ //
         
         // Valida se patientId é um usuário do tipo NORMAL...
         const patient = await this.prismaService.user.findUnique({
@@ -17,7 +17,7 @@ export class AppointmentService {
         });
 
         // Se não for envia um erro dizendo que o id não é valido para o paciente...
-        if (!patient || patient.userType !== 'NORMAL') {
+        if (!patient || patient.type !== 'NORMAL') {
             return {
                 error: 'Paciente não existe ou id informado não é de paciente, verifique se realmente existe ou se o id está correto...',
                 status: 400,
@@ -33,7 +33,7 @@ export class AppointmentService {
         });
 
         // Se não for exibe um erro de que o Id informado não se refere ao tipo PROFESSIONAL;
-        if (!professional || professional.userType !== 'PROFESSIONAL') {
+        if (!professional || professional.type !== 'PROFESSIONAL') {
             return {
                 error: 'Profissional não existe ou id informado não é de profissional, verifique se realmente existe ou se o id está correto...',
                 status: 400,

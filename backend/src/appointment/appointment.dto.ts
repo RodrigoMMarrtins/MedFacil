@@ -1,5 +1,4 @@
-// src/appointments/dto/create-appointment.dto.ts
-import { userType } from '@prisma/client';
+import { appointmentStatus } from "@prisma/client";
 
 export class AppointmentDto {
   patientId: string;
@@ -15,5 +14,5 @@ export class AppointmentDto {
   price: number;
 
   // Supondo que status seja uma string
-  status: number;
+  status: appointmentStatus;
 }
