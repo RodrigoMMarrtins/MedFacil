@@ -1,5 +1,8 @@
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  // Campo inserido pra rodar no mac
+  // Se estiver em qualquer outro SO, comentar
+  binaryTargets = ["native", "linux-arm64-openssl-3.0.x"]
 }
 
 datasource db {
@@ -8,7 +11,15 @@ datasource db {
 }
 
 model User {
-  id    String @id @default(auto()) @map("_id") @db.ObjectId
-  name  String
-  email String @unique
+  id              String   @id @default(uuid()) @map("_id")
+  name            String
+  email           String   @unique
+  password        String
+  type            userType
+  fieldOfActivity String?
+}
+
+enum userType {
+  PROFESSIONAL
+  NORMAL
 }
