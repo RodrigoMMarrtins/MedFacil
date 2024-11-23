@@ -1,0 +1,8 @@
+
+.form{
+    display: flex;
+    max-width: 300px;
+    flex-direction: column;
+    gap: 10px;
+    background-color: blue;
+}
