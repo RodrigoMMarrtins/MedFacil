@@ -60,4 +60,17 @@ export class AppointmentService {
 
     }
 
+    async getAppointment(patientId: string, professionalId: string){
+        return this.prismaService.appointment.findFirst({
+            where:{
+                patientId: patientId,
+                professionalId: professionalId
+            },
+            include: {
+                patient: true,
+                professional: true
+            }
+        })
+    }
+
 }
