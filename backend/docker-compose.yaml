@@ -12,7 +12,8 @@ services:
       - host.docker.internal:172.17.0.1
     depends_on:
       - db 
-      
+   # command: ["sh", "-c", "wait-for-it db:27017 -- npm run start"]
+
   db:
     image: mongo:6.0
     environment:
@@ -23,7 +24,10 @@ services:
     volumes:
       - mongodb_data:/data/db 
 
-
 volumes:
   mongodb_data:
     driver: local
+
+networks:
+  my-network:
+    driver: bridge

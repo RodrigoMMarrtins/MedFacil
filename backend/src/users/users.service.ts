@@ -18,22 +18,28 @@ export class UsersService {
     }));
   }
   async create(user: UserDto): Promise<ResponseDTO> {
-    const hashedPassword = bcrypt.hashSync(user.password, 10);
-    if (this.prismaService.user.findUnique({ where: { email: user.email } })) {
+    const hashedPassword = await bcrypt.hashSync(user.password, 10);
+    const existingUser = await this.prismaService.user.findUnique({
+      where: { email: user.email },
+    });
+
+    if (existingUser) {
       return {
         error: 'Email already exists, please try again with a different email',
         status: 400,
         message: 'Email already exists.',
       };
     }
-    if (user.type === 'PROFESSIONAL' && user.fieldOfActivity === '') {
+
+    if (user.type === 'PROFESSIONAL' && !user.fieldOfActivity) {
       return {
         message: 'Every professional must have a field of activity',
         status: 400,
         error: 'Field of activity not specified',
       };
     }
-    this.prismaService.user.create({
+
+    await this.prismaService.user.create({
       data: {
         name: user.name,
         email: user.email,
@@ -42,25 +48,30 @@ export class UsersService {
         fieldOfActivity: user.fieldOfActivity,
       },
     });
+
     return { message: 'User created successfully', status: 201 };
   }
 
   async findById(id: string) {
     return await this.prismaService.user.findUnique({
-      where: { id },
+      where: { id: id },
     });
   }
 
   async findByEmail(email: string) {
+    if (!email) {
+      throw new Error('Email is required');
+    }
     return await this.prismaService.user.findUnique({
-      where: { email },
+      where: { email: email },
     });
   }
 
   async update(id: string, user: UserDto): Promise<ResponseDTO> {
-    const hashedPassword = bcrypt.hashSync(user.password, 10);
-    this.prismaService.user.update({
-      where: { id },
+    const hashedPassword = await bcrypt.hashSync(user.password, 10);
+
+    await this.prismaService.user.update({
+      where: { id: id },
       data: {
         name: user.name,
         email: user.email,
