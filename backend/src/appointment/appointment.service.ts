@@ -73,4 +73,21 @@ export class AppointmentService {
         })
     }
 
+    async getAppointmentsByPatient(patientId: string){
+        return this.prismaService.appointment.findMany({
+            where:{
+                patientId: patientId
+            },
+            include:{
+                patient: true, 
+                professional: true
+            }
+        })
+    }
+
+    // Alteração de consulta...
+
+    // Remoção de consulta...
+
+    
 }

@@ -14,11 +14,18 @@ export class AppointmentController {
         return await this.appointmentService.create(appointment);
     }
 
-    @Get()
-    async getAppointment(@Query('userId') patientId: string, @Query('professionalId') professionalId: string):Promise<any> {
+    @Get(':patientId/:professionalId')
+    async getAppointment(
+        @Param('patientId') patientId: string,
+        @Param('professionalId') professionalId: string
+    ):Promise<any> {
         return await this.appointmentService.getAppointment(patientId, professionalId);
     }
 
+    @Get('patient/:patientId')
+    async getAppointmentsByPatient(@Param("patientId")patientId: string){
+        return await this.appointmentService.getAppointmentsByPatient(patientId);
+    }
 
 }
 
