@@ -25,6 +25,7 @@
     "@nestjs/core": "^10.4.8",
     "@nestjs/platform-express": "^10.0.0",
     "@prisma/client": "^5.22.0",
+    "backend": "file:",
     "bcryptjs": "^2.4.3",
     "prisma": "^5.22.0",
     "reflect-metadata": "^0.2.0",

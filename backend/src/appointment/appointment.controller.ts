@@ -1,16 +1,16 @@
 import { Body, Controller, Get, Query, Param, Post, Put } from '@nestjs/common';
 
-import { AppointmentDTO } from './appointment.dto';
+import { AppointmentDto } from './appointment.dto';
 
 import { AppointmentService } from './appointment.service';
 
 @Controller('appointment')
 export class AppointmentController {
     
-    constructor(appointmentService:AppointmentService) {}
+    constructor(private readonly appointmentService:AppointmentService) {}
 
     @Post()
-    async create(@Body() appointment:AppointmentDTO): Promise<any>{
+    async create(@Body() appointment:AppointmentDto): Promise<any>{
         return await this.appointmentService.create(appointment);
     }
 
