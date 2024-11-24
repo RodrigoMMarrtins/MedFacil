@@ -1,0 +1,49 @@
+
+.form{
+    display: flex;
+    position: relative;
+    width: 100%;
+    align-items: center;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.btn_next{
+    background-color: var(--btn-next);
+    align-self: flex-end;
+    margin-left: 44.25px;
+    border: none;
+    outline: none;
+    padding: 9.5px 15.5px;
+    color: white;
+    border-radius: 4px;
+    font-weight: 400;
+    cursor: pointer;
+}
+
+.input_line{
+    display: flex;
+    flex-direction: column;
+    align-self: flex-start;
+    width: 416px;
+    gap: 9px;
+}
+
+.input_radio{
+    display: flex;
+    gap: 1rem;
+}
+
+.input_text{
+    padding: 9px 1rem;
+    border-radius: 4px;
+    outline: none;
+    border: none;
+    background-color: var(--input-text-bg);
+    font-family: "Poppins";
+    color: black;
+}
+
+.input_text[placeholder]{
+    color: var(--gray-text);
+}
