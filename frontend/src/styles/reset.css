@@ -1,0 +1,19 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+a{
+    text-decoration: none;
+    color: inherit;
+}
+
+button{
+    outline: none;
+    border: none;
+}
+
+input{
+    outline: none;
+    border: none;
+}
