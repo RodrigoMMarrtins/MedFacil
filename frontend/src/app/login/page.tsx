@@ -1,6 +1,7 @@
 "use client"
-import { redirect } from "next/navigation";
+//import { redirect } from "next/navigation";
 import { useState } from "react";
+import Auth from "../api/login.api";
 
 interface FormData {
   username: string;
@@ -25,10 +26,16 @@ const Login: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (formData.username === "admin" && formData.password === "password123") {
-      redirect("/");
+    const result = await Auth.authenticate(formData.username, formData.password);
+
+    if (result.success) {
+      console.log('Autenticado com sucesso!', result.data);
+      localStorage.setItem('jwt', result.data.jwt);
+      console.log(localStorage.getItem('jwt'))
+      //redirect('/dashboard');
     } else {
-      setError("Usuário ou senha inválidos.");
+      console.error('Erro ao autenticar:', result.error);
+      setError(result.error);
     }
   };
 
@@ -38,8 +45,8 @@ const Login: React.FC = () => {
       id="main"
     >
       <div className="bg-white border-4 border-white rounded-lg p-4"  style={{ maxWidth: "400px", margin: "0 auto", padding: "20px" }}>
-      <div class="flex pd-4 items-center justify-center">
-  <h1 class="font-bold text-center text-xl">Login</h1>
+      <div className="flex pd-4 items-center justify-center">
+  <h1 className="font-bold text-center text-xl">Login</h1>
 </div>        <form onSubmit={handleSubmit}>
           <div>
             <label htmlFor="username">Usuário</label>
