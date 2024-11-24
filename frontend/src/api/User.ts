@@ -1,5 +1,4 @@
 class User {
-    id: string;
     name: string;
     email: string;
     password: string;
@@ -13,7 +12,6 @@ class User {
     sex: string;
   
     constructor({
-      id,
       name,
       email,
       password,
@@ -39,7 +37,6 @@ class User {
       crm?: string;
       sex: string;
     }) {
-      this.id = id || this.generateUUID();
       this.name = name;
       this.email = email;
       this.password = password;

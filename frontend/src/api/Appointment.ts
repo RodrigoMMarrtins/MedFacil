@@ -1,5 +1,4 @@
 class Appointment {
-    id: string;
     patientId: string;
     professionalId: string;
     service: string;
@@ -9,7 +8,6 @@ class Appointment {
     status: AppointmentStatus;
   
     constructor(
-      id: string,
       patientId: string,
       professionalId: string,
       service: string,
@@ -18,7 +16,6 @@ class Appointment {
       price: number,
       status: AppointmentStatus
     ) {
-      this.id = id;
       this.patientId = patientId;
       this.professionalId = professionalId;
       this.service = service;
