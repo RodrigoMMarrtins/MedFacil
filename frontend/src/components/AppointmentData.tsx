@@ -1,14 +1,70 @@
 import styles from '@/components/ContainerForm.module.css'
 import form from '@/components/RegistrationForm.module.css'
+import { useState } from 'react';
 
-const AppointmentData = () => {
+const AppointmentData = async () => {
+    const [formData, setFormData] = useState({
+        date: '',
+        professionalName: '',
+        selectedTime: '09:00:00'
+    });
+    
+    // Manipulador de alteração para os inputs
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setFormData((prevState) => ({
+            ...prevState,
+            [name]: value
+        }));
+    };
+
+    // Manipulador de envio do formulário
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+    // Manipulador de alteração para os inputs
+     // Convertendo a data para o formato ISO 8601 (com hora)
+     const dateTime = new Date(formData.date);
+     const isoDate = dateTime.toISOString(); // Vai gerar a string no formato correto (YYYY-MM-DDTHH:MM:SS.sssZ)
+
+     // Atualizando os dados para enviar
+     const finalData = {
+         ...formData,
+         date: isoDate, // Substituímos a data pelo formato ISO
+     };
+
+     // Enviando os dados via fetch
+     try {
+         const response = await fetch('http://localhost:3000/appointment', {
+             method: 'POST',
+             headers: {
+                 'Content-Type': 'application/json',
+             },
+             body: JSON.stringify(finalData),
+         });
+
+         if (!response.ok) {
+             throw new Error('Erro ao agendar consulta.');
+         }
+
+         const responseData = await response.json();
+         console.log('Consulta agendada com sucesso:', responseData);
+         // Resetando os dados do formulário
+         setFormData({ date: '', professionalName: '', selectedTime: '09:00:00' });
+     } catch (error) {
+         console.error('Erro na requisição:', error);
+    }
+    }
+
     return (
         <form className={styles.appointment_form}>
 
             <div className={styles.appointment_data}>
                 <div>
                     <label htmlFor="date">Data da Consulta: </label>
-                    <input type="date" name="date" id="date" className={styles.input_date}/>
+                    <input type="date" name="date" id="date" 
+                    value={formData.date}
+                    onChange={handleInputChange}
+                    className={styles.input_date}/>
                 </div>
     
                 <div>
@@ -48,6 +104,8 @@ const AppointmentData = () => {
                     name="professionalName"
                     id="professionalName"
                     className={styles.input_appointment}
+                    value={formData.professionalName}
+                    onChange={handleInputChange}
                     />
                 </div>
     

@@ -43,14 +43,32 @@ const handleFirstStepNext = (data: {
     setStep(2);
 }
 
-const handleSecondStepSubmit = (data: {
-    dateOfBirth: string,
-    gender: string,
-    cpf: string,
-}) => {
-    const combineData = {...firstStepData, ...data};
-    console.log("Dados finais do form: ", combineData);
-}
+const handleSecondStepSubmit = async (data: { dateOfBirth: string; gender: string; cpf: string }) => {
+    const combinedData = { ...firstStepData, ...data };
+
+    try {
+        const response = await fetch('/user', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(combinedData),
+        });
+
+        if (!response.ok) {
+            throw new Error('Erro ao realizar o cadastro.');
+        }
+
+        const responseData = await response.json();
+        console.log("Cadastro realizado com sucesso:", responseData);
+        // Aqui você pode redirecionar ou exibir uma mensagem de sucesso para o usuário.
+        setStep(1); // Resetando o formulário ou redirecionando para outra página
+
+    } catch (error) {
+        console.error("Erro na requisição:", error);
+        // Aqui você pode mostrar uma mensagem de erro para o usuário.
+    }
+};
 
     return(
         <Background className={containerForm.background_form}>

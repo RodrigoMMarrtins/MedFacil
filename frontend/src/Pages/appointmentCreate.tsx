@@ -7,6 +7,8 @@ import styles from "@/components/ContainerForm.module.css";
 import InputSearch from "@/components/InputSearch";
 
 export default function appointmentCreate(){
+    
+    
     return (
         <Container className={styles.layout_2col_70_30pct}>
             <Menu>
@@ -22,13 +24,13 @@ export default function appointmentCreate(){
 
                 <p>Selecione data e horário de acordo com a disponibilidade</p>
 
-                {/* <AppointmentData>
+                <AppointmentData>
 
-                </AppointmentData> */}
+                </AppointmentData> 
 
-                <AppointmentShow>
+                {/* <AppointmentShow>
 
-                </AppointmentShow>
+                </AppointmentShow> */}
 
             </Container>
 
