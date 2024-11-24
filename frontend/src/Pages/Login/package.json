@@ -1,0 +1,14 @@
+{
+  "name": "medifacil-frontend",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "next dev",  // Este script inicia o servidor de desenvolvimento do Next.js
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "next": "13.x",  // Ou a versão que você está utilizando
+    "react": "^18.x",
+    "react-dom": "^18.x"
+  }
+}
