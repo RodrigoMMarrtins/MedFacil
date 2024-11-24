@@ -20,7 +20,6 @@ export class AuthController {
     }
 
     const token = await this.authService.login(user);
-    console.log('Token: ', token);
     res.status(200).json({
       message: 'Logged in successfully',
       jwt: token,

@@ -1,93 +1,180 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { ResponseDTO } from 'src/shared/reponse.dto';
 import { AppointmentDto } from './appointment.dto';
 import { PrismaService } from 'src/prisma/prisma/prisma.service';
+import { Appointment, appointmentStatus } from '@prisma/client';
 
 @Injectable()
 export class AppointmentService {
-    
-    constructor(private prismaService: PrismaService){ }
+  constructor(private prismaService: PrismaService) {}
 
-    // Cria um agendamento tomando os dados de appointmentDTO, passados na requisição body do controller...
-    async create(appointment: AppointmentDto): Promise<ResponseDTO>{ //
-        
-        // Valida se patientId é um usuário do tipo NORMAL...
-        const patient = await this.prismaService.user.findUnique({
-        where: { id: appointment.patientId },
-        });
+  async create(appointment: AppointmentDto): Promise<ResponseDTO> {
+    const patient = await this.prismaService.user.findUnique({
+      where: { id: appointment.patientId },
+    });
 
-        // Se não for envia um erro dizendo que o id não é valido para o paciente...
-        if (!patient || patient.type !== 'NORMAL') {
-            return {
-                error: 'Paciente não existe ou id informado não é de paciente, verifique se realmente existe ou se o id está correto...',
-                status: 400,
-                message: 'Paciente não existe ou id informado não é de paciente'
-            };
-        
-            // throw new Error('O ID do paciente deve se referir a um usuário do tipo NORMAL.');
-        }
-
-        // Valida se professionalId é um usuário do tipo PROFESSIONAL...
-        const professional = await this.prismaService.user.findUnique({
-        where: { id: appointment.professionalId },
-        });
-
-        // Se não for exibe um erro de que o Id informado não se refere ao tipo PROFESSIONAL;
-        if (!professional || professional.type !== 'PROFESSIONAL') {
-            return {
-                error: 'Profissional não existe ou id informado não é de profissional, verifique se realmente existe ou se o id está correto...',
-                status: 400,
-                message: 'Profissional não existe ou id informado não é de profissional'
-            };
-
-        //    throw new Error('O ID do profissional deve se referir a um usuário do tipo PROFESSIONAL.');
-        }
-        
-        // const {patientId, professionalId, service, date, duration, price, status} = appointment; Atributos estão definidos no objeto DTO
-        // Cria tomando os métodos de prisma service com o DTO do Agendamento
-        this.prismaService.appointment.create({
-            data: {
-                patientId: appointment.patientId,
-                professionalId: appointment.professionalId, 
-                service: appointment.service, 
-                date: appointment.date, 
-                duration: appointment.duration, 
-                price: appointment.price, 
-                status: appointment.status}
-        });
-
-        return {message: 'Appointment created succesfully', status: 201};
-
+    if (!patient || patient.type !== 'NORMAL') {
+      return {
+        error:
+          'Paciente não existe ou id informado não é de paciente, verifique se realmente existe ou se o id está correto...',
+        status: 400,
+        message: 'Paciente não existe ou id informado não é de paciente',
+      };
     }
 
-    async getAppointment(patientId: string, professionalId: string){
-        return this.prismaService.appointment.findFirst({
-            where:{
-                patientId: patientId,
-                professionalId: professionalId
-            },
-            include: {
-                patient: true,
-                professional: true
-            }
-        })
+    const professional = await this.prismaService.user.findUnique({
+      where: { id: appointment.professionalId },
+    });
+
+    if (!professional || professional.type !== 'PROFESSIONAL') {
+      return {
+        error:
+          'Profissional não existe ou id informado não é de profissional, verifique se realmente existe ou se o id está correto...',
+        status: 400,
+        message:
+          'Profissional não existe ou id informado não é de profissional',
+      };
     }
 
-    async getAppointmentsByPatient(patientId: string){
-        return this.prismaService.appointment.findMany({
-            where:{
-                patientId: patientId
-            },
-            include:{
-                patient: true, 
-                professional: true
-            }
-        })
+    const payload: AppointmentDto = await this.prismaService.appointment.create(
+      {
+        data: {
+          patientId: appointment.patientId,
+          professionalId: appointment.professionalId,
+          service: appointment.service,
+          date: appointment.date,
+          duration: appointment.duration,
+          price: appointment.price,
+          status: appointmentStatus.AGENDADO,
+        },
+      },
+    );
+
+    return {
+      message: 'Appointment created succesfully',
+      status: 201,
+      data: payload,
+    };
+  }
+
+  async getAppointment(patientId: string, professionalId: string) {
+    return this.prismaService.appointment.findFirst({
+      where: {
+        patientId: patientId,
+        professionalId: professionalId,
+      },
+      include: {
+        patient: true,
+        professional: true,
+      },
+    });
+  }
+
+  async getAppointmentsByPatient(patientId: string): Promise<Appointment[]> {
+    const appointments = await this.prismaService.appointment.findMany({
+      where: {
+        patientId: patientId,
+      },
+      include: {
+        patient: true,
+        professional: true,
+      },
+    });
+
+    return appointments.map(
+      (item): AppointmentDto => ({
+        id: item.id,
+        patientId: item.patientId,
+        professionalId: item.professionalId,
+        service: item.service,
+        date: item.date,
+        duration: item.duration,
+        price: item.price,
+        status: item.status,
+      }),
+    );
+  }
+
+  async updateAppointment(
+    appointmentId: string,
+    appointment: AppointmentDto,
+  ): Promise<ResponseDTO> {
+    const exist = await this.prismaService.appointment.findUnique({
+      where: { id: appointmentId },
+    });
+    if (!exist) {
+      return {
+        error: 'Appointment not found',
+        message: 'Appointment not found, please try again',
+        status: 404,
+      };
     }
+    const updatedAppointment = await this.prismaService.appointment.update({
+      where: { id: appointmentId },
+      data: {
+        service: appointment.service,
+        date: appointment.date,
+        duration: appointment.duration,
+        price: appointment.price,
+        status: appointment.status,
+      },
+    });
+    return {
+      status: 200,
+      message: 'Appointment updated successfully',
+      data: updatedAppointment,
+    };
+  }
 
-    // Alteração de consulta...
+  async findAllAppointmentsByPatientId(
+    patientId: string,
+  ): Promise<AppointmentDto[]> {
+    const appointments = await this.prismaService.appointment.findMany({
+      where: {
+        patientId: patientId,
+      },
+      include: {
+        professional: true,
+      },
+    });
 
-    // Remoção de consulta...
+    return appointments.map(
+      (item): AppointmentDto => ({
+        id: item.id,
+        patientId: item.patientId,
+        professionalId: item.professionalId,
+        service: item.service,
+        date: item.date,
+        duration: item.duration,
+        price: item.price,
+        status: item.status,
+      }),
+    );
+  }
 
-    
+  async findAllAppointmentsByProfessionalId(
+    professionalId: string,
+  ): Promise<Appointment[]> {
+    const appointments = await this.prismaService.appointment.findMany({
+      where: {
+        professionalId: professionalId,
+      },
+      include: {
+        patient: true,
+      },
+    });
+
+    return appointments.map(
+      (item): AppointmentDto => ({
+        id: item.id,
+        patientId: item.patientId,
+        professionalId: item.professionalId,
+        service: item.service,
+        date: item.date,
+        duration: item.duration,
+        price: item.price,
+        status: item.status,
+      }),
+    );
+  }
 }

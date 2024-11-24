@@ -19,6 +19,10 @@ model User {
   patients       Appointment[]  @relation("PatientRelation")
   professionals  Appointment[]  @relation("ProfessionalRelation")
   fieldOfActivity String?
+  birthDate String
+  cpf String
+  crm String?
+  sex String
 }
 
 
@@ -40,7 +44,8 @@ model Appointment {
   status         appointmentStatus
 }
 
-enum appointmentStatus{
+enum appointmentStatus {
   AGENDADO
   CONCLUIDO
+  CANCELADO
 }
