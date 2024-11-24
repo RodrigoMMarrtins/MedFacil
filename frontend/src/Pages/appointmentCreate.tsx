@@ -4,28 +4,34 @@ import Appointgemtf from "@/components/AppointmentData";
 import AppointmentData from "@/components/AppointmentData";
 import AppointmentShow from "@/components/AppointmentShow";
 import styles from "@/components/ContainerForm.module.css";
+import InputSearch from "@/components/InputSearch";
 
 export default function appointmentCreate(){
     return (
         <Container className={styles.layout_2col_70_30pct}>
-        <Menu>
-            
-        </Menu>
+            <Menu>
+                
+            </Menu>
 
-            <form className={styles.flex7}>
+            <Container className={styles.main_container}>
                 <h1>Agendar um atendimento com um especialista</h1>
-                {/* Input <div></div> */}
+
+                <InputSearch>
+                
+                </InputSearch>
+
                 <p>Selecione data e horário de acordo com a disponibilidade</p>
 
-                <AppointmentData>
+                {/* <AppointmentData>
 
-                </AppointmentData>
+                </AppointmentData> */}
 
-                <AppointmentShow></AppointmentShow>
-                <button type="submit">
-                    Agendar
-                </button>
-            </form>
+                <AppointmentShow>
+
+                </AppointmentShow>
+
+            </Container>
+
         </Container>
     );
 }

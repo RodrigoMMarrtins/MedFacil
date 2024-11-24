@@ -14,22 +14,22 @@ const Menu = () => {
             <ul className={styles.nav}>
                 <li>
                     <span></span>
-                    <a href="" className={styles.a}>Visão Geral da Saúde</a>
+                    <a href="" className={`${styles.a} ${styles.odd}`}>Visão Geral da Saúde</a>
                 </li>
 
                 <li>
                     <span></span>
-                    <a href="" className={styles.a}>Calendário</a>
+                    <a href="" className={`${styles.a} ${styles.even}`}>Calendário</a>
                 </li>
 
                 <li>
                     <span></span>
-                    <a href="" className={styles.a}>Agendar Especialistas</a>
+                    <a href="" className={`${styles.a} ${styles.odd}`}>Agendar Especialistas</a>
                 </li>
 
                 <li>
                     <span></span>
-                    <a href="" className={styles.a}>Fale com o Suporte</a>
+                    <a href="" className={`${styles.a} ${styles.even}`}>Fale com o Suporte</a>
                 </li>
 
             </ul>
