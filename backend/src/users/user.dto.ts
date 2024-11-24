@@ -6,4 +6,8 @@ export class UserDto {
   password: string;
   type: userType;
   fieldOfActivity?: string;
+  sex: string;
+  birthDate: string;
+  crm?: string;
+  cpf: string;
 }
