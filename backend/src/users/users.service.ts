@@ -62,6 +62,8 @@ export class UsersService {
     if (!email) {
       throw new Error('Email is required');
     }
+    console.info('find email unique');
+
     return await this.prismaService.user.findUnique({
       where: { email: email },
     });

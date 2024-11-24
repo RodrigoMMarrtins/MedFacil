@@ -8,17 +8,22 @@ export class AuthController {
 
   @Post('login')
   async login(
-    @Body() loginDto: { username: string; password: string },
+    @Body() loginDto: { email: string; password: string },
     @Res() res: Response,
   ) {
     const user = await this.authService.validateUser(
-      loginDto.username,
+      loginDto.email,
       loginDto.password,
     );
     if (!user) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 
-    return this.authService.login(user, res);
+    const token = await this.authService.login(user);
+    console.log('Token: ', token);
+    res.status(200).json({
+      message: 'Logged in successfully',
+      jwt: token,
+    });
   }
 }
