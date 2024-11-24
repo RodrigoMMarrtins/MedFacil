@@ -1,7 +1,12 @@
 import { useState } from 'react';
+import CustomImage from '@/components/Image';
 import FirstStepRegistrationForm from '@/components/FirstStepRegistrationForm';
 import SecondStepRegistrationForm from '@/components/SecondStepRegistrationForm';
 import RegistrationForm from '@/components/RegistrationForm';
+import Container from '@/components/container';
+import containerForm from '@/components/ContainerForm.module.css';
+import Background from '@/components/Background';
+
 
 export default function Register(){
 //     const {formData, setFormData} = useState({
@@ -48,15 +53,38 @@ const handleSecondStepSubmit = (data: {
 }
 
     return(
-        <div>
-            <h1>
-                {step === 1 ? 'Cadastro Parte 1' : 'Cadastro Parte 2'}
-            </h1>
+        <Background className={containerForm.background_form}>
+            <Container className={containerForm.div}>
+                <h1 className={containerForm.h1}>
+                    Formulário de Registro
+                </h1>
+                <p className={containerForm.p}>Por favor, preencha este formulário com as informações necessárias:</p>
+                {step === 1 ?
+                
+                <CustomImage 
+                    src="/images/timeline1.svg"
+                    alt="Etapa 01 do Cadastro"
+                    width={447}
+                    height={100}
+                /> :
 
-            {step === 1 ? 
-            (<FirstStepRegistrationForm onNext={handleFirstStepNext}/>) : 
-            (<SecondStepRegistrationForm onSubmit={handleSecondStepSubmit}/>)
-        }
-        </div>
+                <CustomImage
+                    src="/images/timeline2.svg"
+                    alt="Etapa 02 do Cadastro"
+                    width={447}
+                    height={100}
+                />
+            
+                }
+
+                
+                
+                {step === 1 ?
+                (
+                <FirstStepRegistrationForm onNext={handleFirstStepNext}/>) :
+                (<SecondStepRegistrationForm onSubmit={handleSecondStepSubmit}/>)
+            }
+            </Container>
+        </Background>
     )
 }

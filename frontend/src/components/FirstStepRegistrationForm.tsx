@@ -26,7 +26,7 @@ export default function FirstStepRegistrationForm({ onNext }: SecondStepFormProp
 
     return (
         <form onSubmit={handleSubmit} className={styles.form}>
-            <div>
+            <div className={styles.input_line}>
                 <label htmlFor="name">Nome:</label>
                 <input 
                     type="text" 
@@ -34,9 +34,11 @@ export default function FirstStepRegistrationForm({ onNext }: SecondStepFormProp
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
+                    className={styles.input_text}
+                    placeholder="Henrique Gabriel Silva"
                 />
             </div>
-            <div>
+            <div className={styles.input_line}>
                 <label htmlFor="email">Email:</label>
                 <input 
                     type="text" 
@@ -44,21 +46,25 @@ export default function FirstStepRegistrationForm({ onNext }: SecondStepFormProp
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
+                    className={styles.input_text}
+                    placeholder="Digite o email"
                 />
             </div>
-            <div>
+            <div className={styles.input_line}>
                 <label htmlFor="password">Senha:</label>
                 <input 
-                    type="text" 
+                    type="password" 
                     id="password"
                     name="password"
-                    value={formData.name}
+                    value={formData.password}
                     onChange={handleChange}
-                />
+                    className={styles.input_text}
+                    placeholder="********"
+                />  
             </div>
 
-            <button type="submit">
-                Próxima Etapa
+            <button type="submit" className={styles.btn_next}>
+                Avançar
             </button>
         </form>
     )

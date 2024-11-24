@@ -26,10 +26,10 @@ export default function SecondStepRegistrationForm({ onSubmit }: SecondStepFormP
 
     return (
         <form onSubmit={handleSubmit} className={styles.form}>
-            <div>
+            <div className={styles.input_line}>
                 <label htmlFor="dateOfBirth">Data de Nascimento:</label>
                 <input 
-                    type="text" 
+                    type="date" 
                     id="dateOfBirth"
                     name="dateOfBirth"
                     value={formData.dateOfBirth}
@@ -37,13 +37,13 @@ export default function SecondStepRegistrationForm({ onSubmit }: SecondStepFormP
                 />
             </div>
 
-            <div>
+            <div className={styles.input_line}>
                 <label htmlFor="gender">Sexo:</label>
 
-                <label htmlFor="gender">
+                <label htmlFor="male" className={styles.input_radio}>
                     <input 
                         type="radio" 
-                        id="gender"
+                        id="male"
                         name="gender"
                         value="male"
                         checked={formData.gender === 'male'}
@@ -52,12 +52,12 @@ export default function SecondStepRegistrationForm({ onSubmit }: SecondStepFormP
                     <span>Masculino</span>
                 </label>
 
-                <label htmlFor="gender">
+                <label htmlFor="female" className={styles.input_radio}>
                     <input 
                         type="radio" 
-                        id="gender"
+                        id="female"
                         name="gender"
-                        value="male"
+                        value="female"
                         checked={formData.gender === 'female'}
                         onChange={handleChange}
                     />
@@ -65,7 +65,7 @@ export default function SecondStepRegistrationForm({ onSubmit }: SecondStepFormP
                 </label>
             </div>
 
-            <div>
+            <div className={styles.input_line}>
                 <label htmlFor="cpf">CPF:</label>
                 <input 
                     type="text" 
@@ -73,10 +73,11 @@ export default function SecondStepRegistrationForm({ onSubmit }: SecondStepFormP
                     name="cpf"
                     value={formData.cpf}
                     onChange={handleChange}
+                    className={styles.input_text}
                 />
             </div>
 
-            <button type="submit">
+            <button type="submit" className={styles.btn_next}>
                 Enviar
             </button>
         </form>

@@ -1,5 +1,7 @@
 import { useState } from "react";
-import styles from './RegistrationForm.module.css';
+// import styles from './RegistrationForm.module.css';
+
+
 
 export default function RegistrationForm() {
     const [formData, setFormData] = useState({
@@ -20,7 +22,7 @@ export default function RegistrationForm() {
     }
 
     return (
-        <form onSubmit={handleSubmit} className={styles.form}>
+        <form onSubmit={handleSubmit} className="bg-black">
             <div>
                 <label htmlFor="name">Nome:</label>
                 <input 
