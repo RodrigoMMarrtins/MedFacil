@@ -4,8 +4,7 @@ const Post: React.FC = () => {
   const router = useRouter();
   const { id } = router.query;
 
-  return <h1>Post ID: {id}</h1>;
+  return (<h1>Post ID: {id}</h1>);
 }
 
 export default Post;
-const { id } = router.query as { id: string };
