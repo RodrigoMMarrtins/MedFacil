@@ -11,15 +11,41 @@ datasource db {
 }
 
 model User {
-  id              String   @id @default(uuid()) @map("_id")
-  name            String
-  email           String   @unique
-  password        String
-  type            userType
+  id             String         @id @default(uuid()) @map("_id")
+  name           String  
+  email          String         @unique
+  password       String   
+  type           userType
+  patients       Appointment[]  @relation("PatientRelation")
+  professionals  Appointment[]  @relation("ProfessionalRelation")
   fieldOfActivity String?
+  birthDate String
+  cpf String
+  crm String?
+  sex String
 }
+
 
 enum userType {
   PROFESSIONAL
   NORMAL
+}
+
+model Appointment {
+  id             String   @id @default(uuid()) @map("_id")
+  patient        User     @relation(name: "PatientRelation", fields: [patientId], references: [id])
+  patientId      String
+  professional   User     @relation(name: "ProfessionalRelation", fields: [professionalId], references: [id])
+  professionalId String
+  service        String
+  date           DateTime
+  duration       Int
+  price          Int
+  status         appointmentStatus
+}
+
+enum appointmentStatus {
+  AGENDADO
+  CONCLUIDO
+  CANCELADO
 }
